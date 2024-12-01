@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "../lib/axios";
 
 const ProfileForm = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const ProfileForm = () => {
     Gender: '',
     interest: '',
   });
-  const [cv, setCv] = useState(null); // Store the file
+  const [image, setimage] = useState(null); // Store the file
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false); // Loading state for button
 
@@ -27,11 +28,11 @@ const ProfileForm = () => {
   // Handle file input change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      setCv(file);
+    if (file) {
+      setimage(file);
     } else {
-      alert('Please upload a valid image file.');
-      setCv(null); // Reset if not an image
+      alert('Please upload a valid file.');
+      setimage(null); // Reset if no valid file
     }
   };
 
@@ -45,7 +46,7 @@ const ProfileForm = () => {
     else if (!/^\d+$/.test(formData.PhoneNumber)) newErrors.PhoneNumber = 'Phone Number must be numeric.';
     if (!formData.Gender) newErrors.Gender = 'Gender is required.';
     if (!formData.interest) newErrors.interest = 'Interest is required.';
-    if (!cv) newErrors.cv = 'CV upload is required.';
+    if (!image) newErrors.image = 'image upload is required.';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Return true if no errors
   };
@@ -56,19 +57,24 @@ const ProfileForm = () => {
     if (!validateForm()) return; // Stop submission if validation fails
 
     const data = new FormData();
+
+    // Append all form fields
     for (const key in formData) {
       data.append(key, formData[key]);
     }
-    if (cv) {
-      data.append('image', cv); // Append the image file as 'image'
+
+    // Append the file
+    if (image) {
+      data.append('image', image); // Use 'image' as the key for the file
     }
 
     setLoading(true); // Start loading
 
     try {
-      const response = await fetch('http://localhost:3001/userDetails', {
-        method: 'POST',
-        body: data,
+      const response = await axios.post('http://localhost:3001/userDetails', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set correct header
+        },
       });
 
       setLoading(false); // Stop loading
@@ -77,8 +83,7 @@ const ProfileForm = () => {
         alert('Profile uploaded successfully!');
         navigate('/dashboard'); // Navigate to dashboard
       } else {
-        const error = await response.text();
-        alert(`Error: ${error}`);
+        alert(`Error: ${response.data.message || 'Unknown error occurred'}`);
       }
     } catch (error) {
       setLoading(false); // Stop loading
@@ -194,17 +199,17 @@ const ProfileForm = () => {
           {errors.interest && <p className="text-red-500 text-sm">{errors.interest}</p>}
         </div>
 
-        {/* CV Upload Field */}
+        {/* image Upload Field */}
         <div className="space-y-2">
-          <label className="block text-sm">Upload CV (Image Only)</label>
+          <label className="block text-sm">Upload image</label>
           <input
             type="file"
             name="image"
-            accept="image/*"
+            accept="image/*,application/pdf" // Adjust accepted file types
             onChange={handleFileChange}
-            className={`w-full p-2 border rounded ${errors.cv ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border rounded ${errors.image ? 'border-red-500' : ''}`}
           />
-          {errors.cv && <p className="text-red-500 text-sm">{errors.cv}</p>}
+          {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
         </div>
 
         {/* Submit Button */}
