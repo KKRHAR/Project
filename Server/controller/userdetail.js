@@ -44,16 +44,19 @@ res.status(200).send(detail)
 const uploadJob = asyncHandler(async(req,res,next)=>{
 
 
-const{name,description,user,location,category}=req.body 
+const{name,description,location,category}=req.body 
 console.log(req.body)
+const user=req.user
 
 if(!name||!description){
     res.status(400).send('Name and description required');
     return;
 
 }
-const dvUser=await employee.findById({_id:user
-})
+console.log(user);
+
+const dvUser=await employee.findById(user)
+
 console.log(dvUser)
 const job= await jobDetail.create({name,
     description,user,location,category})

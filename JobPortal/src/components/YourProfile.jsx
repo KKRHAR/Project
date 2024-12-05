@@ -189,7 +189,7 @@ const ProfileForm = () => {
             onChange={handleChange}
             className={`w-full p-2 border rounded ${errors.interest ? 'border-red-500' : ''}`}
           >
-            <option value="">Select Interest</option>
+            <option value="">None</option>
             <option value="Frontend">Frontend</option>
             <option value="Backend">Backend</option>
             <option value="UI/UX Design">UI/UX Design</option>

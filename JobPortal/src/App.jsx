@@ -7,6 +7,7 @@ import Dashboard from "./components/Dashboard";
 // import UploadJob from "./components/UploadJob"; 
 import YourProfile from "./components/YourProfile";
 import JobSearch from "./components/SearchJob";
+import UploadJob from './components/UploadJob';
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
         {/* <Route path="/uploadjob" element={<UploadJob />} /> Corrected */}
         <Route path="/your-profile" element={<YourProfile />} />
         <Route path="/search" element={<JobSearch />} />
+        <Route path='/uploadjob' element={<UploadJob/>}/>
 
       </Routes>
     </Router>

@@ -12,7 +12,7 @@ const Employee=require("../models/Employee.js")
             res.status(401).send("token not available");
         }
         const decodeToken=jwt.verify(token,"123445678!@")
-        const userdb= await Employee.findById(decodeToken?._id).select("-password");
+        const userdb= await Employee.findById(decodeToken?._id).select("_id");
         if(!userdb){
             return res.status(401).send("user not found")
         }
