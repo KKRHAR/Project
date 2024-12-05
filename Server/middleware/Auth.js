@@ -5,9 +5,9 @@ const Employee=require("../models/Employee.js")
 
      
     try {
-        console.log("i am cookie",req.cookies)
         const token=req.cookies?.accessToken ||
         req.header("Authorization")?.replace("Bearer ", ""); 
+        console.log(token)
         if(!token){
             res.status(401).send("token not available");
         }
@@ -20,8 +20,7 @@ const Employee=require("../models/Employee.js")
         
 next()
     } catch (error) {
-        console.log(error);
-        
+        console.log(error)
         console.log("error while decoding the token");
     }
 

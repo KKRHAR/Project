@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const jobDetailSchema = new mongoose.Schema({
-    name: {
+    Jobname: {
         type: String,
         required: true,
     },
@@ -12,15 +12,22 @@ description:{
 user:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "userDetails"
-    
+},
+email:{
+    type:String,
+    required:true
 },
 location:{
     type:String,
     required:true,
 },
+experience:{
+type:String,
+defualt:"0 year"
+},
 category:{
     type:String,
-    enum: ['Frontend', 'Backend','UI/UX Design','Database','fullstack'],
+    enum: ['Frontend', 'Backend','UI/UX Design','Database','Fullstack'],
     required:true
 }
 

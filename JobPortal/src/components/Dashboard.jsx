@@ -16,7 +16,7 @@ const Dashboard = () => {
     const fetchJobs = async () => {
       try {
         const response = await axios.post("http://localhost:3001/search");
-        if (!response.status===200) {
+        if (!response.status === 200) {
           throw new Error("Failed to fetch job data");
         }
         const data = await response.data;
@@ -74,18 +74,15 @@ const Dashboard = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center w-2/3 p-8">
-            
-
           {/* Render fetched job data */}
-          
-         <div className="grid grid-cols-2 gap-12 w-4/5">
+          <div className="grid grid-cols-2 gap-12 w-4/5">
             {jobData.length > 0 ? (
               jobData.map((job) => (
                 <div
                   key={job.id}
                   className="h-auto border p-8 rounded-lg shadow-md bg-gray-200 flex flex-col"
                 >
-                  <h3 className="font-bold text-xl mb-2">{job.name}</h3>
+                  <h3 className="font-bold text-xl mb-2">{job.Jobname}</h3>
                   <p className="text-gray-600 mb-4">{job.description}</p>
                   <p className="text-gray-500">
                     <span className="font-semibold">Category:</span>{" "}
@@ -95,6 +92,14 @@ const Dashboard = () => {
                     <span className="font-semibold">Location:</span>{" "}
                     {job.location}
                   </p>
+                  <p className="text-gray-500">
+                    <span className="font-semibold">Experience:</span>{" "}
+                    {job.experience}
+                  </p>
+                  <p className="text-gray-500">
+                    <span className="font-semibold">Contact Us:</span>{" "}
+                    {job.email}
+                  </p>
                 </div>
               ))
             ) : (
@@ -102,7 +107,7 @@ const Dashboard = () => {
                 No job data available.
               </div>
             )}
-          </div> 
+          </div>
         </div>
       </div>
 
@@ -128,7 +133,7 @@ const Dashboard = () => {
         </div>
       )}
     </div>
-  );  
+  );
 };
 
-export default Dashboard;    
+export default Dashboard;

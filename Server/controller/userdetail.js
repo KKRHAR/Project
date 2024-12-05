@@ -42,29 +42,24 @@ res.status(200).send(detail)
 
 })
 const uploadJob = asyncHandler(async(req,res,next)=>{
-
-
-const{name,description,location,category}=req.body 
-console.log(req.body)
+const{Jobname,description,location,category,experience,email}=req.body 
 const user=req.user
 
-if(!name||!description){
+console.log(req.body);
+
+if(!Jobname||!description){
     res.status(400).send('Name and description required');
     return;
 
 }
-console.log(user);
-
 const dvUser=await employee.findById(user)
 
-console.log(dvUser)
-const job= await jobDetail.create({name,
-    description,user,location,category})
+const job= await jobDetail.create({Jobname,
+    description,user,location,category,experience,email})
 
-res.send(job);
+res.status(200).send(job);
 })
 const searchJob= asyncHandler(async(req,res,next)=>{
-    console.log("hi i am anurag ki jay hiose",req.body)
     const{location,title,category}=req.body
     const search={
 
